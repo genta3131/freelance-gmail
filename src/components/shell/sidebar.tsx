@@ -137,11 +137,11 @@ export function Sidebar({
         </div>
         {navLinks}
         <div className="mt-auto flex items-center gap-2 border-t border-border p-4">
-          <div className="flex min-w-0 flex-1 items-center gap-2">
-            {profile && <UserMenu profile={profile} />}
+          <div className="flex min-w-0 items-center gap-2">
             <span className="truncate text-xs text-muted-foreground">
               {profile?.full_name ?? "Pengguna"}
             </span>
+            {profile && <UserMenu profile={profile} />}
           </div>
           {actions}
         </div>

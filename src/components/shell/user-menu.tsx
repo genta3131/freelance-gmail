@@ -50,7 +50,7 @@ export function UserMenu({ profile }: { profile: Profile }) {
           </Avatar>
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56">
+      <DropdownMenuContent align="end" className="w-44 sm:w-56 lg:w-44">
         <DropdownMenuLabel className="text-foreground">
           <p className="truncate text-sm font-medium">{profile.full_name ?? "Pengguna"}</p>
           <p className="text-xs font-normal text-muted-foreground">{menuLabel}</p>
