@@ -37,7 +37,7 @@ export default async function FreelancersPage({
   const params = await searchParams;
 
   // Apply filters
-  if (params.status && params.status !== "all") {
+  if (params.status === "active" || params.status === "inactive") {
     query = query.eq("status", params.status);
   }
   if (params.search) {

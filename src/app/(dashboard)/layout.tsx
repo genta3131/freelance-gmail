@@ -4,6 +4,8 @@ import { Sidebar } from "@/components/shell/sidebar";
 import { UserMenu, ThemeToggle } from "@/components/shell/user-menu";
 import type { Profile } from "@/types/database";
 
+export const instant = false;
+
 export default async function DashboardLayout({
   children,
 }: {

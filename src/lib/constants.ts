@@ -17,10 +17,10 @@ export const TASK_PRIORITIES: {
   label: string;
   color: string;
 }[] = [
-  { value: "low", label: "Rendah" },
-  { value: "medium", label: "Sedang" },
-  { value: "high", label: "Tinggi" },
-  { value: "urgent", label: "Urgent" },
+  { value: "low", label: "Rendah", color: "neutral" },
+  { value: "medium", label: "Sedang", color: "info" },
+  { value: "high", label: "Tinggi", color: "warn" },
+  { value: "urgent", label: "Urgent", color: "danger" },
 ];
 
 export const SUBMISSION_STATUSES: {

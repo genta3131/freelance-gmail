@@ -28,7 +28,7 @@ export type ActivityAction =
   | "submission_approved"
   | "submission_rejected";
 
-export interface Profile {
+export type Profile = {
   id: string;
   role: UserRole;
   full_name: string | null;
@@ -38,9 +38,9 @@ export interface Profile {
   notification_submission: boolean;
   created_at: string;
   updated_at: string;
-}
+};
 
-export interface Client {
+export type Client = {
   id: string;
   name: string;
   company: string | null;
@@ -50,9 +50,9 @@ export interface Client {
   created_by: string | null;
   created_at: string;
   updated_at: string;
-}
+};
 
-export interface Freelancer {
+export type Freelancer = {
   id: string;
   user_id: string | null;
   name: string;
@@ -64,9 +64,9 @@ export interface Freelancer {
   created_by: string | null;
   created_at: string;
   updated_at: string;
-}
+};
 
-export interface Task {
+export type Task = {
   id: string;
   title: string;
   description: string | null;
@@ -81,9 +81,9 @@ export interface Task {
   // Join fields (query dengan foreign table select) — tidak tersimpan di DB
   client?: Client | null;
   freelancer?: Freelancer | null;
-}
+};
 
-export interface Submission {
+export type Submission = {
   id: string;
   task_id: string;
   freelancer_id: string | null;
@@ -98,19 +98,19 @@ export interface Submission {
   // Join fields
   task?: Task | null;
   freelancer?: Freelancer | null;
-}
+};
 
-export interface ActivityLog {
+export type ActivityLog = {
   id: string;
   user_id: string | null;
   action: ActivityAction;
   entity_type: "task" | "freelancer" | "client" | "submission" | "auth";
   entity_id: string | null;
-  metaRecord<string, unknown> | null;
+  metadata: Record<string, unknown> | null;
   created_at: string;
   // Join fields
   user?: Profile | null;
-}
+};
 
 export type Database = {
   public: {
@@ -159,9 +159,18 @@ export type Database = {
           email?: string | null;
           phone?: string | null;
           notes?: string | null;
+          created_by?: string | null;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "clients_created_by_fkey";
+            columns: ["created_by"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       freelancers: {
         Row: Freelancer;
@@ -186,9 +195,18 @@ export type Database = {
           skills?: string[];
           hourly_rate?: number | null;
           status?: "active" | "inactive";
+          created_by?: string | null;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "freelancers_created_by_fkey";
+            columns: ["created_by"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       tasks: {
         Row: Task;
@@ -213,9 +231,32 @@ export type Database = {
           status?: TaskStatus;
           priority?: TaskPriority;
           due_date?: string | null;
+          created_by?: string | null;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "tasks_client_id_fkey";
+            columns: ["client_id"];
+            isOneToOne: false;
+            referencedRelation: "clients";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "tasks_created_by_fkey";
+            columns: ["created_by"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "tasks_freelancer_id_fkey";
+            columns: ["freelancer_id"];
+            isOneToOne: false;
+            referencedRelation: "freelancers";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       submissions: {
         Row: Submission;
@@ -243,7 +284,29 @@ export type Database = {
           reviewed_at?: string | null;
           updated_at?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "submissions_freelancer_id_fkey";
+            columns: ["freelancer_id"];
+            isOneToOne: false;
+            referencedRelation: "freelancers";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "submissions_reviewed_by_fkey";
+            columns: ["reviewed_by"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "submissions_task_id_fkey";
+            columns: ["task_id"];
+            isOneToOne: false;
+            referencedRelation: "tasks";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       activity_logs: {
         Row: ActivityLog;
@@ -263,7 +326,15 @@ export type Database = {
           entity_id?: string | null;
           metadata?: Record<string, unknown> | null;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "activity_logs_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
       };
     };
     Views: Record<string, never>;

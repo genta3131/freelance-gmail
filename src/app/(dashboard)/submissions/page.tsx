@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { SubmissionList } from "@/components/submissions/submission-list";
+import { SUBMISSION_STATUSES } from "@/lib/constants";
 
 export default async function SubmissionsPage({
   searchParams,
@@ -40,7 +41,8 @@ export default async function SubmissionsPage({
 
   // Apply filters
   if (params.status && params.status !== "all") {
-    query = query.eq("status", params.status);
+    const status = SUBMISSION_STATUSES.find(({ value }) => value === params.status)?.value;
+    if (status) query = query.eq("status", status);
   }
 
   const { data: submissions } = await query;

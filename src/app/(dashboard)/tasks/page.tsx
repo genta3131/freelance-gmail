@@ -5,6 +5,7 @@ import { Plus } from "lucide-react";
 import Link from "next/link";
 import { TaskList } from "@/components/tasks/task-list";
 import { redirect } from "next/navigation";
+import { TASK_PRIORITIES, TASK_STATUSES } from "@/lib/constants";
 
 export default async function TasksPage({
   searchParams,
@@ -41,10 +42,12 @@ export default async function TasksPage({
 
   // Apply filters
   if (params.status) {
-    query = query.eq("status", params.status);
+    const status = TASK_STATUSES.find(({ value }) => value === params.status)?.value;
+    if (status) query = query.eq("status", status);
   }
   if (params.priority) {
-    query = query.eq("priority", params.priority);
+    const priority = TASK_PRIORITIES.find(({ value }) => value === params.priority)?.value;
+    if (priority) query = query.eq("priority", priority);
   }
   if (params.search) {
     query = query.ilike("title", `%${params.search}%`);
