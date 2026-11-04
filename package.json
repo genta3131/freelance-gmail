@@ -1,12 +1,17 @@
 {
-  "name": "freelance-email",
-  "version": "0.1.0",
-  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "setup": "bash setup.sh",
+    "supabase:status": "supabase status",
+    "supabase:push": "supabase db push",
+    "supabase:pull": "supabase db pull",
+    "supabase:reset": "supabase db reset",
+    "supabase:types": "supabase gen types typescript --local > src/types/supabase-generated.ts",
+    "vercel:deploy": "vercel",
+    "vercel:prod": "vercel --prod"
   },
   "dependencies": {
     "@hookform/resolvers": "^7.0.2",
