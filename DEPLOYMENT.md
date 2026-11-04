@@ -19,10 +19,16 @@ Panduan deploy aplikasi WorkFlow Hub ke production.
 
 ### 2. Setup Database Schema
 
-1. Buka **SQL Editor** di Supabase Dashboard
-2. Jalankan migrations dari folder `supabase/migrations` satu per satu:
-   - `20240101000000_initial_schema.sql` (atau file migration yang ada)
-3. Verifikasi tabel sudah terbuat di **Table Editor**
+Jalankan migration yang tersedia (`supabase/migrations/0001_init.sql`) dengan Supabase CLI:
+
+```bash
+supabase link --project-ref <project-ref>
+supabase db push --dry-run
+supabase db push
+```
+
+Pastikan target dan daftar migration benar sebelum mengonfirmasi `db push`.
+Verifikasi tabel sudah terbuat di **Table Editor**.
 
 ### 3. Setup Auth
 
@@ -35,7 +41,7 @@ Panduan deploy aplikasi WorkFlow Hub ke production.
 1. Buka **Settings** > **API**
 2. Copy:
    - Project URL
-   - `anon` public key
+   - Publishable key (atau legacy `anon` key)
 3. Simpan untuk digunakan di environment variables
 
 ### 5. Setup Row Level Security (RLS)
@@ -109,7 +115,7 @@ nano .env.local
 
 # Isi dengan:
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_publishable_key
 ```
 
 ### 4. Build & Start
