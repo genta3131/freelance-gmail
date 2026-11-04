@@ -57,7 +57,7 @@ export default async function DashboardLayout({
   const isAdmin = profile.role === "admin";
 
   return (
-    <div className="flex min-h-dvh flex-1 bg-background lg:pl-60">
+    <div className="flex min-h-dvh flex-1 flex-col bg-background lg:flex-row lg:pl-60">
       <Sidebar isAdmin={isAdmin} profile={profile} actions={<ThemeToggle />} />
       <div className="flex min-w-0 flex-1 flex-col">
         <main className="flex-1 px-4 pb-8 pt-6 sm:px-6 lg:px-8">{children}</main>
