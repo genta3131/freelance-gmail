@@ -100,7 +100,27 @@ export function Sidebar({
         />
       )}
       {open && (
-        <aside className="fixed inset-y-0 left-0 z-45 w-64 border-r border-border bg-card lg:hidden">
+        <aside
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigasi utama"
+          className="fixed inset-y-0 left-0 z-50 flex w-64 flex-col overflow-y-auto border-r border-border bg-card lg:hidden"
+        >
+          <div className="flex items-center justify-between border-b border-border px-5 py-4">
+            <span className="flex items-center gap-2.5 text-sm font-semibold tracking-tight text-foreground">
+              <span className="flex size-8 items-center justify-center rounded-lg bg-brand text-white">
+                <LayoutGrid className="size-4" aria-hidden />
+              </span>
+              WorkFlow Hub
+            </span>
+            <button
+              className="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              onClick={() => setOpen(false)}
+              aria-label="Tutup menu"
+            >
+              <X className="size-5" aria-hidden />
+            </button>
+          </div>
           {navLinks}
         </aside>
       )}
