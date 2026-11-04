@@ -1,4 +1,5 @@
-import { createClient } from "@/lib/supabase/server";
+import { createClient as createClientServer } from "@/lib/supabase/server";
+import { createClient as createClientBrowser } from "@/lib/supabase/client";
 import type { ActivityAction, ActivityLog } from "@/types/database";
 
 export interface ActivityInput {
@@ -20,7 +21,8 @@ export async function logActivity(
   entityId?: string | null,
   metadata?: Record<string, unknown>
 ) {
-  const supabase = await createClient();
+  // Use client for browser context (called from client components)
+  const supabase = createClientBrowser();
 
   const { error } = await supabase.from("activity_logs").insert({
     user_id: userId,
