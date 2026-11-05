@@ -1,7 +1,11 @@
 import { z } from "zod";
 
 export const loginSchema = z.object({
-  email: z.string().min(1, "Email wajib diisi").email("Format email tidak valid"),
+  email: z
+    .string()
+    .min(3, "Masukkan email atau username")
+    .max(254, "Email/username terlalu panjang")
+    .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Gunakan format nama@akun.local atau email Anda"),
   password: z.string().min(1, "Password wajib diisi"),
 });
 export type LoginInput = z.infer<typeof loginSchema>;
@@ -9,7 +13,11 @@ export type LoginInput = z.infer<typeof loginSchema>;
 export const registerSchema = z
   .object({
     fullName: z.string().min(2, "Nama minimal 2 karakter").max(100, "Nama maksimal 100 karakter"),
-    email: z.string().min(1, "Email wajib diisi").email("Format email tidak valid"),
+    email: z
+      .string()
+      .min(3, "Masukkan email atau username")
+      .max(254, "Email/username terlalu panjang")
+      .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Gunakan format nama@akun.local atau email Anda"),
     password: z
       .string()
       .min(8, "Password minimal 8 karakter")

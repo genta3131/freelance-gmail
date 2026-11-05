@@ -33,7 +33,7 @@ export function RegisterForm() {
 
     // User PERTAMA pada aplikasi otomatis menjadi admin (handle_new_user).
     const { data, error } = await supabase.auth.signUp({
-      email: values.email,
+      email: values.email.trim().toLowerCase(),
       password: values.password,
       options: {
         data: { full_name: values.fullName },
@@ -50,7 +50,7 @@ export function RegisterForm() {
     if (!data.session) {
       setLoading(false);
       toast.success("Registrasi berhasil", {
-        description: "Cek email Anda untuk konfirmasi akun sebelum login.",
+        description: "Akun dibuat, tetapi pendaftaran perlu konfirmasi email dari konfigurasi Supabase.",
         duration: 8000,
       });
       return;
@@ -75,12 +75,12 @@ export function RegisterForm() {
       </div>
 
       <div className="space-y-1.5">
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email">Email atau username login</Label>
         <Input
           id="email"
-          type="email"
-          placeholder="nama@email.com"
-          autoComplete="email"
+          type="text"
+          placeholder="nama@akun.local atau email Anda"
+          autoComplete="username"
           aria-invalid={!!errors.email}
           {...register("email")}
         />

@@ -51,12 +51,12 @@ export function LoginForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="space-y-1.5">
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email">Email atau username</Label>
         <Input
           id="email"
-          type="email"
-          placeholder="nama@email.com"
-          autoComplete="email"
+          type="text"
+          placeholder="nama@akun.local atau email Anda"
+          autoComplete="username"
           aria-invalid={!!errors.email}
           {...register("email")}
         />
